@@ -1,11 +1,28 @@
+import React from "react";
 function TodoList(){
+
+    // let todos = [];
+    const [todos, setTodos] = React.useState([]);
+
+
+    function getTodos()
+    {
+        //Get all todos from local storage and store it
+       let todos = JSON.parse(localStorage.getItem("TODO_KEY"))|| [];
+
+    //    update the react state
+    setTodos (todos);
+    }
+// list rendering
+    React.useEffect(getTodos,[]);
     return(
         <ul>
-            <li>Complete all javascript course </li>
-            <li>Finish your react code </li>
-            <li>Go over previous lesson's notes</li>
-            <li>Go through the git push and pull process</li>
+           
+            {todos.map(function(todo,index){
+                return <li key={index}>{todo}</li>
+            })}
         </ul>
     );
+
 }
 export default TodoList;
