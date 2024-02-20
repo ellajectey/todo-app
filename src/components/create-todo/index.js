@@ -45,7 +45,7 @@ function CreateTodo(){
  
             <button 
             onClick={()=>setTodos([...todos,todo])}
-            className={styles.createTodobtn}
+            className={`btn ${styles.createTodobtn}`}
             > 
             Create </button>
         </section>
