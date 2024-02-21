@@ -2,52 +2,36 @@ import styles from "./index.module.css"
 import { useLocalStorage } from "usehooks-ts";
 import { useState } from "react";
 
-function CreateTodo(){
+function CreateTodo() {
 
-    const [todos, setTodos] = useLocalStorage
-    ("TODO_KEY",[]);
+    const [todos, setTodos] = useLocalStorage("TODO_KEY", []);
+    const [todo, setTodo] = useState("");
 
 
-    // let todo;
-    const[todo, setTodo]=useState("");
-   //define the function at the top give it a name 
-    function collectInput(event)
+    const saveTodos = () => {
+        //save all todos
+        setTodos([...todos, todo]);
+        //wipe the input box
+        setTodo("");
+    }
 
-        {// the variable where the input will be stored
-            setTodo(event.target.value);
-        }
-
-        function saveTodo(){
-            // pseudocode- 
-            // get existing list of todos from local storage (old list)
-            // the or operator "||"  an if statement  can also be used
-            
-            // // deserialize
-            // let todos = JSON.parse(localStorage.getItem("TODO_KEY"))|| [];
-            // // add new todo to existing list of todos
-            // todos.push(todo);
-            // Set all todos in local storage
-            // serialize
-            // localStorage.setItem("TODO_KEY", JSON.stringify(todos)); (...) -> spread operator
-           
-
-            setTodos([...todos,todo]);
-        }
-    return(
+    return (
         // <p>Create Todo</p>
         //allowing the textfield to accept values
         <section className={styles.createTodosection}>
             <input
-             onChange= {event => setTodo(event.target.value)}
-             className={styles.createTodoinput1} 
-              placeholder ="Start typing..."/>
+                onKeyDown={event => event.key === "Enter" && saveTodos()}
+                value={todo}
+                onChange={event => setTodo(event.target.value)}
+                className={styles.createTodoinput1}
+                placeholder="Start typing..." />
 
- 
-            <button 
-            onClick={()=>setTodos([...todos,todo])}
-            className={`btn ${styles.createTodobtn}`}
-            > 
-            Create </button>
+
+            <button
+                onClick={() => saveTodos()}
+                className={`btn ${styles.createTodobtn}`}
+            >
+                Create </button>
         </section>
     );
 }
